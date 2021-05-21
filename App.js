@@ -1,15 +1,13 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import LogoPresentacion from './src/components/LogoPresentacion';
-import Home from './src/pages/Home';
-import Itineraries from './src/pages/Itineraries';
+import {NavigationContainer} from '@react-navigation/native'
+import Drawer from './navigation/Drawer';
 
-//<LogoPresentacion /> <Home />
-export default function App() {
+export default function App(props) {
   return (
-    <>
-      <Itineraries/>
-    </>
+    <NavigationContainer>
+      <Drawer props={props}/>
+    </NavigationContainer>
   );
 }
 

@@ -1,14 +1,18 @@
 import React from 'react'
 import { Text, View, StyleSheet, ScrollView, StatusBar, Image, ImageBackground} from "react-native"
+import Header from '../components/Header'
 
-const Home = ()=>{
+const Home = (props)=>{
     return (
+        <>
+        <Header props={props}/>        
         <ImageBackground source={require("../images/fondoHome.png")} style={styles.imagenPortada}>
             <View style={styles.contenedorTextosHome}>
                 <Text style={styles.textoHome}>Find your perfect trip, designed by insiders who know and love their cities!</Text>
-                <Text style={styles.getStartedHome}>Get Started</Text>
+                <Text style={styles.getStartedHome} >Get Started</Text>
             </View>
-        </ImageBackground>          
+        </ImageBackground>     
+        </>     
     ) 
 }
 
