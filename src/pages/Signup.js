@@ -11,7 +11,7 @@ import {
   Keyboard,
   StatusBar
 } from 'react-native';
-import { Entypo } from '@expo/vector-icons'
+import { Ionicons  } from '@expo/vector-icons'
 import Header from '../components/Header'
 
 export default function LoginScreen1(props) {
@@ -24,10 +24,16 @@ export default function LoginScreen1(props) {
         <View style={styles.centerizedView}>
           <View style={styles.authBox}>
             <View style={styles.logoBox}>
-                <Entypo name="login" size={50} color="white" />
+                <Ionicons name="person-add-sharp" size={24} color="white" />
             </View>
-            <Text style={styles.loginTitleText}>Login</Text>
+            <Text style={styles.loginTitleText}>SignUp</Text>
             <View style={styles.hr}></View>
+            <View style={styles.inputBox}>
+              <Text style={styles.inputLabel}>Name</Text>
+              <TextInput
+                style={styles.input}
+              />
+            </View>
             <View style={styles.inputBox}>
               <Text style={styles.inputLabel}>Email</Text>
               <TextInput
@@ -41,11 +47,11 @@ export default function LoginScreen1(props) {
               />
             </View>
             <TouchableOpacity style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Login</Text>
+              <Text style={styles.loginButtonText}>Sign Up</Text>
             </TouchableOpacity>
             <TouchableOpacity>
               <Text style={styles.registerText}>
-                Don't have an account? Register Now
+                No tienes cuenta? Log in
               </Text>
             </TouchableOpacity>
           </View>

@@ -4,6 +4,7 @@ import Home from '../src/pages/Home'
 import Itineraries from '../src/pages/Itineraries'
 import Cities from '../src/pages/Cities'
 import Login from '../src/pages/Login'
+import SignUp from '../src/pages/Signup'
 
 const stack = createStackNavigator()
 
@@ -28,6 +29,14 @@ export const LoginStack = () => {
     return (
         <stack.Navigator screenOptions={{headerShown: false}}>
             <stack.Screen name="login" component={Login} />        
+        </stack.Navigator>
+    )
+}
+
+export const SignUpStack = () => {
+    return (
+        <stack.Navigator screenOptions={{headerShown: false}}>
+            <stack.Screen name="signup" component={SignUp} />        
         </stack.Navigator>
     )
 }
