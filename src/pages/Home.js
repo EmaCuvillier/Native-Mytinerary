@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet, StatusBar, ScrollView } from "react-native"
+import { Text, View, StyleSheet, StatusBar, ScrollView, ImageBackground } from "react-native"
 import Header from '../components/Header'
 import { Ionicons, Fontisto  } from '@expo/vector-icons'
 
@@ -14,17 +14,31 @@ const Home = (props)=>{
             
             <View style={styles.containerInfoHome}>
                 <ScrollView  horizontal style={styles.scrollView}>
-                    <View style={styles.cajaSlide}>
-                        <Ionicons name="add" size={50} color="black" />
-                        <Text>Add itineraries</Text>
-                    </View>
-                    <View style={styles.cajaSlide}>
-                        <Fontisto name="comments" size={40} color="black" />
-                        <Text>Share experiences</Text>
-                    </View>
-                    <View style={styles.cajaSlide}>
-                        <Ionicons name="ios-navigate" size={40} color="black" />
-                        <Text>Live them yourself</Text>
+                    <View style={styles.cajaContainSlide}>
+                        <View style={styles.cajaSlide}>
+                            <ImageBackground source={require('../images/add.png')} style={styles.imgHomeInfo}>
+                                <View style={styles.infoImagenHomeCaja}>
+                                    <Ionicons name="add" size={50} color="black" style={styles.iconoHomeImg}/>
+                                    <Text>Add itineraries</Text>
+                                </View>
+                            </ImageBackground>
+                        </View>
+                        <View style={styles.cajaSlide} >
+                            <ImageBackground source={require('../images/share.png')} style={styles.imgHomeInfo}>
+                                <View style={styles.infoImagenHomeCaja}>
+                                    <Fontisto name="comments" size={40} color="black" style={styles.iconoHomeImg}/>
+                                    <Text>Share experiences</Text>
+                                </View>
+                            </ImageBackground>
+                        </View>
+                        <View style={styles.cajaSlide} >
+                            <ImageBackground source={require('../images/vivelo.png')} style={styles.imgHomeInfo}>
+                                <View style={styles.infoImagenHomeCaja}>
+                                    <Ionicons name="ios-navigate" size={40} color="black" style={styles.iconoHomeImg}/>
+                                    <Text>Live them yourself</Text>
+                                </View>
+                            </ImageBackground>
+                        </View>
                     </View>
                 </ScrollView>
             </View>
@@ -32,7 +46,7 @@ const Home = (props)=>{
                 “We travel for romance, we travel for architecture, and we travel to be lost.”
             </Text>
             <Text style={styles.botonGetStarted} onPress={() => props.navigation.navigate('cities')}>
-                Get Started <Ionicons name="ios-navigate" size={24} color="white" />
+                Get Started <Ionicons name="ios-navigate" size={24} color="#EB4D4B" />
             </Text>
         </View> 
         </>     
@@ -54,7 +68,7 @@ const styles = StyleSheet.create({
     },
     botonGetStarted:{
         backgroundColor: "#252a34",
-        color: "white",
+        color: "#EB4D4B",
         borderRadius: 50,
         width: 200,
         height:60,
@@ -85,16 +99,37 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     cajaSlide:{
-        backgroundColor: "red",
-        height: 200, 
-        width: 200,
-        marginRight: 30,
-        justifyContent: "center",
-        alignItems: "center"
+        height: "90%", 
+        width: 300,
+        marginRight: 40,
+        marginBottom: 20,
+        marginTop: 10,
+        borderRadius: 50,
+        overflow: "hidden"
     },
     scrollView:{
         flexDirection: "row",
         paddingLeft: 30,
+        height: 300
+    },
+    imgHomeInfo:{
+        flex: 1,
+        justifyContent: "flex-end",     
+    },
+    cajaContainSlide:{
+        height: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    infoImagenHomeCaja:{
+        backgroundColor: "#F6F4E7",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        height: 50,
+    },
+    iconoHomeImg:{
+        marginRight: 20
     }
   });
 
