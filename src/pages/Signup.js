@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,126 +9,106 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  StatusBar
+  StatusBar,
+  ScrollView,
+  Alert
 } from 'react-native';
-import { Ionicons  } from '@expo/vector-icons'
 import Header from '../components/Header'
+import { connect } from 'react-redux'
+import usersActions from '../redux/actions/usersActions'
 
-export default function LoginScreen1(props) {
+const SignUp = (props)=> {
+  const [nuevoUsuario, setNuevoUsuario] = useState({firstName:'', lastName:'',email:'',password:'',picture:'',country:'native'})
+  const capturarInput = (e, name) =>{
+    const campo = name
+    const valor = e
+    setNuevoUsuario({
+        ...nuevoUsuario,
+        [campo]: valor
+    })
+  }
+  const enviarUsuario = async()=>{
+    const respuesta = await props.crearUsuario(nuevoUsuario)
+      if(respuesta){
+      Alert.alert(
+        "Error",
+        `${respuesta.details[0].context.label}. ${respuesta.details[0].message} `,
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+  }
   return (<>
       <StatusBar/> 
       <Header  props={props} style={styles.navLogin}/>
-      <View style={styles.container}>
-        <View style={styles.bigCircle}></View>
-        <View style={styles.smallCircle}></View>
-        <View style={styles.centerizedView}>
-          <View style={styles.authBox}>
-            <View style={styles.logoBox}>
-                <Ionicons name="person-add-sharp" size={24} color="white" />
-            </View>
-            <Text style={styles.loginTitleText}>SignUp</Text>
-            <View style={styles.hr}></View>
-            <View style={styles.inputBox}>
-              <Text style={styles.inputLabel}>Name</Text>
-              <TextInput
-                style={styles.input}
-              />
-            </View>
-            <View style={styles.inputBox}>
-              <Text style={styles.inputLabel}>Email</Text>
-              <TextInput
-                style={styles.input}
-              />
-            </View>
-            <View style={styles.inputBox}>
-              <Text style={styles.inputLabel}>Password</Text>
-              <TextInput
-                style={styles.input}
-              />
-            </View>
-            <TouchableOpacity style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Sign Up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.registerText}>
-                No tienes cuenta? Log in
-              </Text>
-            </TouchableOpacity>
+      <ScrollView style={styles.containerFormSignUp}>
+          <View style={styles.centerizedView}>
+            <View style={styles.authBox}>
+              <Text style={styles.loginTitleText}>SignUp</Text>
+              <View style={styles.hr}></View>
+              <View style={styles.inputBox}>
+                <Text style={styles.inputLabel}>First Name</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(e)=>capturarInput(e, "firstName")}
+                />
+              </View>
+              <View style={styles.inputBox}>
+                <Text style={styles.inputLabel}>Last Name</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(e)=>capturarInput(e, "lastName")}
+                />
+              </View>
+              <View style={styles.inputBox}>
+                <Text style={styles.inputLabel}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(e)=>capturarInput(e, "email")}
+                />
+              </View>
+              <View style={styles.inputBox}>
+                <Text style={styles.inputLabel}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  textContentType="password"
+                  onChangeText={(e)=>capturarInput(e, "password")}
+                />
+              </View>
+              <View style={styles.inputBox}>
+                <Text style={styles.inputLabel}>Image url</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(e)=>capturarInput(e, "picture")}
+                />
+              </View>
+              <TouchableOpacity style={styles.loginButton}>
+                <Text style={styles.loginButtonText} onPress={()=>enviarUsuario()}>Sign Up</Text>
+              </TouchableOpacity>
           </View>
         </View>
-      </View>
-  
+      </ScrollView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
+  containerFormSignUp:{
+    marginTop: 80,
   },
-  bigCircle: {
-    width: Dimensions.get('window').height * 0.7,
-    height: Dimensions.get('window').height * 0.7,
-    backgroundColor: '#ff6b81',
-    borderRadius: 1000,
-    position: 'absolute',
-    right: Dimensions.get('window').width * 0.25,
-    top: -50,
-  },
-  smallCircle: {
-    width: Dimensions.get('window').height * 0.4,
-    height: Dimensions.get('window').height * 0.4,
-    backgroundColor: '#ff7979',
-    borderRadius: 1000,
-    position: 'absolute',
-    bottom: Dimensions.get('window').width * -0.2,
-    right: Dimensions.get('window').width * -0.3,
-  },
-  centerizedView: {
-    width: '100%',
-    top: '23%',
-  },
-  authBox: {
-    width: '80%',
-    backgroundColor: '#fafafa',
-    borderRadius: 20,
-    alignSelf: 'center',
-    paddingHorizontal: 14,
-    paddingBottom: 30,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  logoBox: {
-    width: 100,
-    height: 100,
-    backgroundColor: '#eb4d4b',
-    borderRadius: 1000,
-    alignSelf: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    top: -50,
-    marginBottom: -50,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+  centerizedView:{
+    height: 530,
   },
   loginTitleText: {
     fontSize: 26,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginTop: 8,
+    textAlign: "center"
   },
   hr: {
     width: '100%',
@@ -137,7 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   inputBox: {
-    marginTop: 10,
+    marginTop: 8,
   },
   inputLabel: {
     fontSize: 18,
@@ -173,3 +153,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+const mapDispatchToProps = {
+  crearUsuario: usersActions.crearUsuario
+}
+export default connect(null,mapDispatchToProps)(SignUp)

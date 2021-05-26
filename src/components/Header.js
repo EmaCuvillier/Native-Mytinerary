@@ -7,7 +7,7 @@ const Header = (props)=>{
         <View style={styles.navLogin}>
             <Entypo name="menu"  size={40} color="black" onPress={() => props.props.navigation.openDrawer()}/>
             <Image source={require('../images/logo.png')} style={styles.logoHeader}></Image>
-            <Ionicons name="md-search" size={30} color="black" />
+            <Ionicons name="md-search" size={30} color="black" onPress={() => props.props.navigation.navigate('cities')}/>
         </View>
     )
 }

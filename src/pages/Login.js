@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,8 +13,23 @@ import {
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons'
 import Header from '../components/Header'
+import userActions from '../redux/actions/usersActions'
+import {connect} from 'react-redux'
 
-export default function LoginScreen1(props) {
+const Login = (props) =>{
+  const [inputUsuario, setInputUsuario] = useState({
+    email: '', password: ''
+  })
+
+  const leerInput = (e, campo) => {
+    setInputUsuario({
+        ...inputUsuario,
+        [campo]: e
+    })
+  }
+  const enviarUsuario = ()=>{
+    props.loguearUsuario(inputUsuario)
+  }
   return (<>
       <StatusBar/> 
       <Header  props={props} style={styles.navLogin}/>
@@ -32,16 +47,18 @@ export default function LoginScreen1(props) {
               <Text style={styles.inputLabel}>Email</Text>
               <TextInput
                 style={styles.input}
+                onChangeText={(e) => leerInput(e, 'email')}
               />
             </View>
             <View style={styles.inputBox}>
               <Text style={styles.inputLabel}>Password</Text>
               <TextInput
                 style={styles.input}
+                onChangeText={(e) => leerInput(e, 'password')}
               />
             </View>
             <TouchableOpacity style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Login</Text>
+              <Text style={styles.loginButtonText}onPress={enviarUsuario}>Login</Text>
             </TouchableOpacity>
             <TouchableOpacity>
               <Text style={styles.registerText}>
@@ -167,3 +184,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+const mapDispatchToProps = {
+  loguearUsuario: userActions.loguearUsuario
+}
+export default connect(null, mapDispatchToProps)(Login)

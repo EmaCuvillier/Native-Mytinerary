@@ -1,49 +1,31 @@
 import React from 'react'
-import { Text, View, StyleSheet, ScrollView, ImageBackground, Image} from "react-native"
-import { AntDesign, FontAwesome5, FontAwesome, Entypo   } from '@expo/vector-icons'
+import { Text, View, StyleSheet, ScrollView, ImageBackground, StatusBar} from "react-native"
+import itineraryActions from '../redux/actions/itineraryActions'
+import {connect} from 'react-redux'
+import { useEffect } from 'react'
+import Itinerary from '../components/Itinerary'
+import Header from '../components/Header'
 
-const Itineraries = ()=>{
+const Itineraries = (props)=>{
+    useEffect(()=>{
+        props.pedirItinerariosPorCiudad(props.route.params.ciudad._id)
+    }, [])
     return (
+        <>
+            <StatusBar />
+            <Header props={props}/> 
             <ScrollView>
                 <View style={styles.portadaItinerarios}>
-                    <ImageBackground style={styles.imagePortadaItinerarios} source={require('../images/pruebaIti.jpg')}>
-                        <Text style={styles.colorPortadaItinerarios}>Tokyo</Text>
+                    <ImageBackground style={styles.imagePortadaItinerarios} source={{uri: props.route.params.ciudad.image}}>
+                        <Text style={styles.colorPortadaItinerarios}>{props.route.params.ciudad.name}</Text>
                     </ImageBackground>
                 </View>
-                <View style={styles.cadaCardItinerary}>
-                        <View style={styles.infoUsuarioItinerario}>
-                            <View style={styles.nombreFotoUsuarioItinerario}>
-                                <Image style={styles.fotoUsuarioItinerario} source={require('../images/henry.png')}></Image>
-                                <Text style={styles.nombreUsuarioItinerario}>Thierry Henry</Text>
-                            </View>
-                            <AntDesign name="adduser" size={30} color="red" />
-                        </View>
-                        <View style={styles.tituloItinerario}>Titulo del Itinerario</View>
-                        <View style={styles.infoItinerario}>
-                            <View style={styles.precioItinerario}>
-                                <Text style={styles.textInfoUsuario}>Price:</Text>
-                                <FontAwesome5 style={styles.margenIconoItinerario} name="money-bill-alt" size={24} color="green" />
-                                <FontAwesome5 style={styles.margenIconoItinerario} name="money-bill-alt" size={24} color="green" />
-                                <FontAwesome5 style={styles.margenIconoItinerario} name="money-bill-alt" size={24} color="green" />
-                            </View>
-                            <View style={styles.duracionItinerario}>
-                                <Text style={styles.textInfoUsuario}>Duration:</Text>
-                                <FontAwesome5 style={styles.margenIconoItinerario} name="clock" size={24} color="black" />
-                                <FontAwesome5 style={styles.margenIconoItinerario} name="clock" size={24} color="black" />
-                                <FontAwesome5 style={styles.margenIconoItinerario} name="clock" size={24} color="black" />
-                            </View>
-                        </View>
-                        <View style={styles.likeComentsItinerario}>
-                            <ImageBackground source={require('../images/pruebaCardIti.jpg')} style={styles.imagenCardIitinerario}>
-                                <View style={styles.cajitaComentsLikes}>
-                                    <FontAwesome name="heart" size={24} color="gray" />
-                                    <FontAwesome name="commenting" size={24} color="gray" />
-                                    <Entypo name="share" size={24} color="gray" />
-                                </View>
-                            </ImageBackground>
-                        </View>
-                </View>            
-            </ScrollView>     
+                {props.itinerarios.length > 0
+                    ? props.itinerarios.map(itinerary => {
+                    return <Itinerary key={itinerary._id} itinerary={itinerary}/>})
+                    : <Text>No hay itinerarios para esta ciudad</Text>}          
+            </ScrollView> 
+        </>    
     ) 
 }
 
@@ -53,6 +35,7 @@ const styles = StyleSheet.create({
         borderBottomStartRadius: 150,
         borderBottomRightRadius: 150,
         overflow: "hidden",
+        marginTop: 60
     },
     imagePortadaItinerarios:{
         resizeMode: "cover",
@@ -157,4 +140,13 @@ const styles = StyleSheet.create({
     }  
 });
 
-export default Itineraries
+const mapStateToProps = state => {
+    return {
+        itinerarios:  state.itinerarioReducer.itinerarios,
+        userLogged: state.usersReducers.userLogged
+    }
+}
+const mapDispatchToProps = {
+    pedirItinerariosPorCiudad: itineraryActions.pedirItinerariosPorCiudad
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Itineraries)
